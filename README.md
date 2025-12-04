@@ -2,17 +2,12 @@
 
 ## Installazione ed esecuzione
 
-1. Clonare il repository:
-
-git clone INSERIRE LINK REPOSITORY PUBBLICA
-cd autotorino-gestionale
-
-
+1. Aprire il terminale cmd di visual studio code
+   
 2. Installare le dipendenze del backend:
 
 cd backend
 npm install
-
 
 3. Avviare il server:
 
