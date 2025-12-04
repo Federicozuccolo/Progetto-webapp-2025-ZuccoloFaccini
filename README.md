@@ -7,6 +7,7 @@
 2. Installare le dipendenze del backend:
 
 cd backend
+
 npm install
 
 
