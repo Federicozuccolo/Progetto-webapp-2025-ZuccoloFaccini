@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoTorino Italia - Gestionale Concessionaria</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header sempre visibile-->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <img src="immagini/logo_piccolo.png" alt="Logo" class="logo-img">
+                <div>
+                    <h1>AutoTorino Italia</h1>
+                    <p>Gestionale Concessionaria</p>
+                </div>
+            </div>
+            <div class="user-info" id="userInfo" style="display: none;">                   
+                <span id="usernameDisplay"></span>
+                <button class="btn-logout" onclick="logout()">                   
+                    Logout
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Login Section -->
+    <section id="loginSection" class="login-section">
+        <div class="login-box">
+            <div class="login-header">
+                <img src="immagini/logo_grande.png" alt="Logo" class="login-logo">
+                <h2>Accedi al gestionale</h2>
+                <p>Inserisci le tue credenziali per continuare</p>
+            </div>
+            <div id="loginError" class="error-message" style="display: none;"></div>
+            <div class="login-form">
+                <div class="form-group">
+                    <label for="username">Username</label>      
+                    <input type="text" id="username" placeholder="Inserisci username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Inserisci password" required>
+                </div>
+                <button class="btn-primary btn-full" onclick="login()">
+                    Accedi
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Applicazione principale (visibile solo se loggato) -->
+    <main id="appSection" style="display: none;">
+        <div class="container">
+            <!-- Tab di navigazione in "catalogo auto" e "riparazioni" -->
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('catalogo')">
+                    Catalogo Auto
+                </button>
+                <button class="tab-btn" onclick="switchTab('riparazioni')">
+                    Riparazioni
+                </button>
+            </div>
+
+            <!-- TAB CATALOGO AUTO -->
+            <div id="tabCatalogo" class="tab-content active">
+                <!-- Toolbar -->
+                <div class="toolbar">
+                    <h2>Catalogo Auto</h2>
+                    <button class="btn-primary" onclick="openModal()">
+                        + Aggiungi Auto
+                    </button>
+                </div>
+
+                <!-- Filtri e Ricerca -->
+                <div class="filters-card">
+                    <div class="filters-grid">
+                        <div class="filter-item">
+                            <label>Cerca per marca o modello</label>
+                            <input type="text" id="searchInput" placeholder="BMW, Audi, Golf..." onkeyup="applyFilters()">
+                        </div>
+                        <div class="filter-item">
+                            <label>Stato</label>
+                            <select id="filterStato" onchange="applyFilters()">
+                                <option value="">Tutti</option>
+                                <option value="Nuova">Nuova</option>
+                                <option value="Usata">Usata</option>
+                                <option value="KM Zero">KM Zero</option>
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <label>Carburante</label>
+                            <select id="filterCarburante" onchange="applyFilters()">
+                                <option value="">Tutti</option>
+                                <option value="Benzina">Benzina</option>
+                                <option value="Diesel">Diesel</option>
+                                <option value="Elettrica">Elettrica</option>
+                                <option value="Ibrida">Ibrida</option>
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <label>Sede</label>
+                            <select id="filterSede" onchange="applyFilters()">
+                                <option value="">Tutte</option>
+                                <option value="Domio">Domio</option>
+                                <option value="Rabuiese">Rabuiese</option>
+                                <option value="Tavagnacco">Tavagnacco</option>
+                                <option value="Zoppola">Zoppola</option>
+                                <option value="Pordenone">Pordenone</option>
+                                <option value="Milano">Milano</option>
+                                <option value="Monza">Monza</option>
+                                <option value="Brescia">Brescia</option>
+                                <option value="Torino">Torino</option>
+                                <option value="Modena">Modena</option>
+                                <option value="Teramo">Teramo</option>
+                                <option value="Roma">Roma</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="results-info" id="resultsInfo"></div>
+
+                    <!-- Paginazione -->
+                    <div class="pagination" id="pagination"></div>
+                </div>
+
+                <!-- Griglia Auto -->
+                <div id="carsGrid" class="cars-grid"></div>
+            </div>
+
+            <!-- TAB RIPARAZIONI -->
+            <div id="tabRiparazioni" class="tab-content">
+                <div class="toolbar">
+                    <h2>Gestione Riparazioni</h2>
+                    <button class="btn-primary" onclick="openRiparazioneModal()">
+                        + Nuova Riparazione
+                    </button>
+                </div>
+                <div id="riparazioniGrid" class="riparazioni-container"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Aggiungi/Modifica Auto -->
+    <div id="carModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Aggiungi Nuova Auto</h2>
+            </div>
+            <div class="modal-body">
+                <div id="modalError" class="error-message" style="display: none;"></div>
+                <form id="carForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="marca">Marca *</label>
+                            <input type="text" id="marca" placeholder="BMW, Audi, Fiat..." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="modello">Modello *</label>
+                            <input type="text" id="modello" placeholder="X3, A4, 500..." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="anno">Anno *</label>
+                            <input type="number" id="anno" min="2000" max="2025" value="2024" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="prezzo">Prezzo (â‚¬) *</label>
+                            <input type="number" id="prezzo" min="0" max="500000" placeholder="25000" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="chilometri">Chilometri *</label>
+                            <input type="number" id="chilometri" min="0" value="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="carburante">Carburante *</label>
+                            <select id="carburante" required>
+                                <option value="Benzina">Benzina</option>
+                                <option value="Diesel">Diesel</option>
+                                <option value="Elettrica">Elettrica</option>
+                                <option value="Ibrida">Ibrida</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="stato">Stato *</label>
+                            <select id="stato" required>
+                                <option value="Nuova">Nuova</option>
+                                <option value="Usata">Usata</option>
+                                <option value="KM Zero">KM Zero</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="colore">Colore *</label>
+                            <input type="text" id="colore" placeholder="Rosso, Blu, Nero..." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sede">Sede *</label>
+                            <select id="sede" required>
+                                <option value="Domio">Domio</option>
+                                <option value="Rabuiese">Rabuiese</option>
+                                <option value="Tavagnacco">Tavagnacco</option>
+                                <option value="Zoppola">Zoppola</option>
+                                <option value="Pordenone">Pordenone</option>
+                                <option value="Milano">Milano</option>
+                                <option value="Monza">Monza</option>
+                                <option value="Brescia">Brescia</option>
+                                <option value="Torino">Torino</option>
+                                <option value="Modena">Modena</option>
+                                <option value="Teramo">Teramo</option>
+                                <option value="Roma">Roma</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="immagine">URL Immagine</label>
+                            <input type="text" id="immagine" placeholder="immagini/auto.jpg">
+                        </div>
+                        <div class="form-group form-group-full">
+                            <label for="descrizione">Descrizione *</label>
+                            <textarea id="descrizione" rows="3" placeholder="Descrizione dell'auto..." required></textarea>
+                        </div>
+                        <div class="form-group-checkbox">
+                            <input type="checkbox" id="disponibile" checked>
+                            <label for="disponibile">Auto disponibile</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal()">Annulla</button>
+                <button class="btn-primary" onclick="saveCar()">Salva</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Aggiungi/Modifica Riparazione -->
+    <div id="riparazioneModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="riparazioneModalTitle">Nuova Riparazione</h2>
+            </div>
+            <div class="modal-body">
+                <div id="riparazioneModalError" class="error-message" style="display: none;"></div>
+                <form id="riparazioneForm">
+                    <div class="form-grid">
+                        <div class="form-group form-group-full">
+                            <label for="riparazioneCarId">Auto *</label>
+                            <select id="riparazioneCarId" required>
+                                <option value="">Seleziona un'auto...</option>
+                            </select>
+                        </div>
+                        <div class="form-group form-group-full">
+                            <label for="tipoLavorazione">Tipo Lavorazione *</label>
+                            <input type="text" id="tipoLavorazione" placeholder="Es: Cambio olio, Verniciatura..." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="statoLavorazione">Stato Lavorazione *</label>
+                            <select id="statoLavorazione" required>
+                                <option value="da_fare">Da fare</option>
+                                <option value="in_corso">In corso</option>
+                                <option value="completato">Completato</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="costoRiparazione">Costo (â‚¬) *</label>
+                            <input type="number" id="costoRiparazione" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="oreRichieste">Ore Richieste *</label>
+                            <input type="number" id="oreRichieste" min="0" step="0.5" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeRiparazioneModal()">Annulla</button>
+                <button class="btn-primary" onclick="saveRiparazione()">Salva</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

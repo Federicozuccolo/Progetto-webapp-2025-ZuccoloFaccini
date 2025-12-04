@@ -1,0 +1,147 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "Mario",
+      "password": "password123"
+    },
+    {
+      "id": 2,
+      "username": "Luca",
+      "password": "password456"
+    }
+  ],
+  "cars": [
+    {
+      "id": 1,
+      "marca": "BMW",
+      "modello": "X3",
+      "anno": 2021,
+      "prezzo": 42000,
+      "chilometri": 35000,
+      "carburante": "Diesel",
+      "stato": "Usata",
+      "colore": "Blu navy",
+      "disponibile": true,
+      "immagine": "immagini/BMW_X3.png",
+      "sede": "Zoppola",
+      "descrizione": "BMW X3 in ottime condizioni, tagliandi certificati BMW. Equipaggiamento: navigatore professionale, sensori parcheggio, telecamera posteriore, sedili riscaldati, cerchi in lega 19'', fari full LED."
+    },
+    {
+      "id": 2,
+      "marca": "Audi",
+      "modello": "A4",
+      "anno": 2019,
+      "prezzo": 25000,
+      "chilometri": 65000,
+      "carburante": "Diesel",
+      "stato": "Usata",
+      "colore": "Nero metallizzato",
+      "disponibile": true,
+      "immagine": "immagini/AUDI_A4.png",
+      "sede": "Tavagnacco",
+      "descrizione": "Audi A4 Avant perfettamente mantenuta. Virtual Cockpit, MMI Navigation Plus, assistenza al parcheggio, cruise control adattivo, sedili sportivi S-Line, climatizzatore automatico tri-zona."
+    },
+    {
+      "id": 3,
+      "marca": "Tesla",
+      "modello": "Model 3",
+      "anno": 2022,
+      "prezzo": 48000,
+      "chilometri": 15000,
+      "carburante": "Elettrica",
+      "stato": "KM Zero",
+      "colore": "Rosso",
+      "disponibile": false,
+      "immagine": "immagini/TESLA_MODEL3.png",
+      "sede": "Milano",
+      "descrizione": "Tesla Model 3 Long Range, autopilot avanzato, ricarica rapida Supercharger, interni premium bianchi, vetri oscurati, sistema audio premium, aggiornamenti software inclusi."
+    },
+    {
+      "id": 4,
+      "marca": "Fiat",
+      "modello": "Punto",
+      "anno": 2001,
+      "prezzo": 5000,
+      "chilometri": 190000,
+      "carburante": "Diesel",
+      "stato": "Usata",
+      "colore": "Grigio",
+      "sede": "Brescia",
+      "immagine": "immagini/FIAT_PUNTO.png",
+      "descrizione": "Auto dei primi anni 2000, usata molto ma solo per tratti brevi casa-lavoro. Mai incidentata, cambiata la cinghia recentemente.\nTagliandi e revisione in ordine",
+      "disponibile": true
+    },
+    {
+      "id": 5,
+      "marca": "BMW",
+      "modello": "M4",
+      "anno": 2022,
+      "prezzo": 25000,
+      "chilometri": 89000,
+      "carburante": "Ibrida",
+      "stato": "Usata",
+      "colore": "Bianca",
+      "sede": "Torino",
+      "immagine": "immagini/BMW_M4.png",
+      "descrizione": "Auto full accessoriata comprata a dicembre del 2022. In dotazione ha 2 treni di gomme (estive e invernali)",
+      "disponibile": true
+    },
+    {
+      "id": 6,
+      "marca": "Mercedes",
+      "modello": "GLA35",
+      "anno": 2022,
+      "prezzo": 50000,
+      "chilometri": 10000,
+      "carburante": "Benzina",
+      "stato": "KM Zero",
+      "colore": "Grigio",
+      "sede": "Roma",
+      "immagine": "immagini/MERCEDES_GLA35.png",
+      "descrizione": "Auto arrivata da poco, deve essere ancora controllata. Configurazione sport",
+      "disponibile": true
+    },
+    {
+      "id": 7,
+      "marca": "Ford",
+      "modello": "Fiesta",
+      "anno": 2015,
+      "prezzo": 9000,
+      "chilometri": 124000,
+      "carburante": "Benzina",
+      "stato": "Usata",
+      "colore": "Grigio opaco",
+      "sede": "Pordenone",
+      "immagine": "immagini/FORD_FIESTA.png",
+      "descrizione": "Colorazione grigio opaco, cerchioni di serie. Interni in tessuto nero e plastiche leggermente rovinate. Autoradio con bluetooth e casse Bose",
+      "disponibile": true
+    }
+  ],
+  "riparazioni": [
+    {
+      "id": 1,
+      "carId": 1,
+      "tipoLavorazione": "Verniciatura paraurti anteriore",
+      "statoLavorazione": "in_corso",
+      "costo": 450,
+      "oreRichieste": 6
+    },
+    {
+      "id": 2,
+      "carId": 2,
+      "tipoLavorazione": "Sostituzione faro posteriore destro",
+      "statoLavorazione": "da_fare",
+      "costo": 320,
+      "oreRichieste": 3
+    },
+    {
+      "id": 3,
+      "carId": 1,
+      "tipoLavorazione": "Revisione freni e pastiglie",
+      "statoLavorazione": "completato",
+      "costo": 680,
+      "oreRichieste": 4
+    }
+  ]
+}
